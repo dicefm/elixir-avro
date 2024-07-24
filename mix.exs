@@ -37,8 +37,8 @@ defmodule ElixirAvro.MixProject do
       {:excribe, "~> 0.1.1"},
       {:noether, "~> 0.2.5"},
       {:timex, "~> 3.7.11"},
-      {:typed_struct, "~> 0.3.0"},
-      {:uuid, "~> 1.1.8"}
+      {:typedstruct, "~> 0.5.2"},
+      {:elixir_uuid, "~> 1.2.1"}
     ]
   end
 
