@@ -42,9 +42,12 @@ defmodule ElixirAvro.Codegen do
     |> Path.dirname()
     |> File.mkdir_p!()
 
-    File.write!(module_path, module_content)
-
-    log("Generated #{module_path}", args)
+    case File.read(module_path) do
+      {:ok, ^module_content} -> :ok
+      _ ->
+        File.write!(module_path, module_content)
+        log("Generated #{module_path}", args)
+    end
   end
 
   @spec log(String.t(), args() | boolean) :: :ok
