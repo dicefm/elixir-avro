@@ -6,6 +6,7 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
   A new player is registered in the atp ranking system.
 
   ### Fields
+  - __external_system_id__:
   - __player_id__: The unique identifier of the registered player (UUID).
   - __full_name__: The full name of the registered player.
   - __rank__: The current ranking of the registered player, start counting from 1.
@@ -22,6 +23,7 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
   alias ElixirAvro.AvroType.Value.Encoder
 
   @expected_keys MapSet.new([
+                   "external_system_id",
                    "player_id",
                    "full_name",
                    "rank",
@@ -32,6 +34,7 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
                  ])
 
   typedstruct do
+    field :external_system_id, MyApp.AvroGenerated.Atp.Players.MongoId.t(), enforce: true
     field :player_id, String.t(), enforce: true
     field :full_name, String.t(), enforce: true
     field :rank, integer(), enforce: true
@@ -46,6 +49,8 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
   def to_avro(%__MODULE__{} = struct) do
     {:ok,
      %{
+       "external_system_id" =>
+         Encoder.encode_value!(struct.external_system_id, "atp.players.MongoId", @module_prefix),
        "player_id" =>
          Encoder.encode_value!(
            struct.player_id,
@@ -94,6 +99,7 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
   end
 
   def from_avro(%{
+        "external_system_id" => external_system_id,
         "player_id" => player_id,
         "full_name" => full_name,
         "rank" => rank,
@@ -104,6 +110,8 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
       }) do
     {:ok,
      %__MODULE__{
+       external_system_id:
+         Decoder.decode_value!(external_system_id, "atp.players.MongoId", @module_prefix),
        player_id:
          Decoder.decode_value!(
            player_id,

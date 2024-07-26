@@ -9,7 +9,7 @@ defmodule Mix.Tasks.ElixirAvro.Generate.CodeTest do
   @generation_path "my_app/avro_generated/atp/players"
   @assertions_path "test/mix/tasks/modules/"
 
-  @generated_files ["assistant.ex", "player_registered.ex", "trainer.ex"]
+  @generated_files ["assistant.ex", "mongo_id.ex", "player_registered.ex", "trainer.ex"]
 
   # we could actually mock and do a unit test
   @tag :exclude
@@ -26,6 +26,8 @@ defmodule Mix.Tasks.ElixirAvro.Generate.CodeTest do
       generated_file_path = @target_path |> Path.join(@generation_path) |> Path.join(file)
       generated_content = File.read!(generated_file_path)
       IEx.Helpers.c(generated_file_path)
+      IO.puts( @target_path |> Path.join(@generation_path) |> Path.join(file))
+        IO.puts(@assertions_path |> Path.join(file) |> String.replace(".ex", ""))
 
       asserted_content =
         @assertions_path |> Path.join(file) |> String.replace(".ex", "") |> File.read!()

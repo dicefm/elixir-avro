@@ -1,0 +1,6 @@
+{
+    "name": "mongo_id",
+    "namespace": "atp.players.info",
+    "type": "fixed",
+    "size": 24
+}

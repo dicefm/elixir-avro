@@ -41,6 +41,14 @@ defmodule ElixirAvro.Template.Renderer do
   end
 
   @doc """
+  Renders the @size for fixed types.
+  """
+  @spec size(Template.t()) :: String.t()
+  def size(%Template{size: size}) do
+    size
+  end
+
+  @doc """
   Renders the typestruct fields with their specs.
   """
   @spec typedstruct_fields(Template.t()) :: String.t()

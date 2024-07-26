@@ -11,10 +11,11 @@ defmodule ElixirAvro.Template do
           name: String.t(),
           prefix: String.t(),
           fields: [AvroType.RecordField.t()],
-          symbols: [String.t()]
+          symbols: [String.t()],
+          size: integer()
         }
 
-  defstruct [:doc, :name, :prefix, fields: [], symbols: []]
+  defstruct [:doc, :name, :prefix, :size, fields: [], symbols: []]
 
   @opts [locals_without_parens: [{:field, :*}], line_length: 120]
   @formatter_file ".formatter.exs"
@@ -64,6 +65,14 @@ defmodule ElixirAvro.Template do
     }
   end
 
+  defp from_avro_type(%AvroType.Fixed{fullname: fullname, size: size}, prefix) do
+    %__MODULE__{
+      name: Names.module_name!(fullname, prefix),
+      prefix: prefix,
+      size: size
+    }
+  end
+
   defp from_avro_type(t, _), do: raise("cannot eval template for #{t.__struct__} type")
 
   @spec template_path_from_avro_type(AvroType.t()) :: String.t() | no_return
@@ -73,6 +82,10 @@ defmodule ElixirAvro.Template do
 
   defp template_path_from_avro_type(%AvroType.Enum{}) do
     Path.join(__DIR__, "template/file/enum.ex.eex")
+  end
+
+  defp template_path_from_avro_type(%AvroType.Fixed{}) do
+    Path.join(__DIR__, "template/file/fixed.ex.eex")
   end
 
   defp template_path_from_avro_type(t), do: raise("template not found for #{t.__struct__} type")

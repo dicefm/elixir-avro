@@ -1,0 +1,23 @@
+defmodule <%= template.name %> do
+  @moduledoc """
+  DO NOT EDIT MANUALLY: This module was automatically generated from an AVRO schema.
+
+  ### Description
+  <%= template.doc %>
+
+  """
+
+  @size <%= ElixirAvro.Template.Renderer.size(template) %>
+
+  def to_avro(<<value::binary-size(@size)>>) do
+    {:ok, value}
+  rescue
+    _ -> {:error, :invalid_value}
+  end
+
+  def from_avro(<<value::binary-size(@size)>>) do
+    {:ok, value}
+  rescue
+    _ -> {:error, :invalid_value}
+  end
+end

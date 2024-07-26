@@ -8,7 +8,7 @@ defmodule ElixirAvro.MixProject do
     [
       app: :elixir_avro,
       version: @version,
-      elixir: "~> 1.15",
+      elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       package: package(),
@@ -29,7 +29,7 @@ defmodule ElixirAvro.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:avrora, "~> 0.21"},
+      {:avrora, "~> 0.28"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:decimal, "~> 2.0"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},

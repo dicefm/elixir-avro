@@ -5,6 +5,16 @@
     "namespace": "atp.players",
     "fields": [
         {
+            "name": "external_system_id",
+            "type": {
+                "name": "MongoId",
+                "namespace": "atp.players",
+                "doc": "Doc!",
+                "type": "fixed",
+                "size": 24
+            }
+        },
+        {
             "name": "player_id",
             "type": {
                 "type": "string",
