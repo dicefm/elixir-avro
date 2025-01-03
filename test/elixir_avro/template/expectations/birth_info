@@ -70,7 +70,9 @@ defmodule Prefix.Atp.Players.Info.BirthInfo do
 
   defimpl Jason.Encoder, for: Prefix.Atp.Players.Info.BirthInfo do
     def encode(value, opts) do
-      Jason.Encode.map(Prefix.Atp.Players.Info.BirthInfo.to_avro(value), opts)
+      with {:ok, data} <- Prefix.Atp.Players.Info.BirthInfo.to_avro(value) do
+        Jason.Encode.map(data, opts)
+      end
     end
   end
 end

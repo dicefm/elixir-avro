@@ -172,7 +172,9 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
 
   defimpl Jason.Encoder, for: MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
     def encode(value, opts) do
-      Jason.Encode.map(MyApp.AvroGenerated.Atp.Players.PlayerRegistered.to_avro(value), opts)
+      with {:ok, data} <- MyApp.AvroGenerated.Atp.Players.PlayerRegistered.to_avro(value) do
+        Jason.Encode.map(data, opts)
+      end
     end
   end
 end

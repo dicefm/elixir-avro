@@ -32,6 +32,14 @@ defmodule ElixirAvro.E2ETest do
     Code.compile_file("test/elixir_avro/e2e/fixtures.exs")
   end
 
+  test "implements jason" do
+    to_avro = ElixirAvro.E2E.Fixtures
+
+    avro_struct = to_avro.all_types_example(:struct)
+
+    assert {:ok, _value} = Jason.encode(avro_struct)
+  end
+
   test "encode and decode" do
     # We need to define a variable to reference modules just compiled
     # avoiding a warning about undefined module

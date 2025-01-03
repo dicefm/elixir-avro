@@ -44,7 +44,9 @@ defmodule <%= template.name %> do
 
   defimpl Jason.Encoder, for: <%= template.name %> do
     def encode(value, opts) do
-      Jason.Encode.map(<%= template.name %>.to_avro(value), opts)
+      with {:ok, data} <- <%= template.name %>.to_avro(value) do
+        Jason.Encode.map(data, opts)
+      end
     end
   end
 end

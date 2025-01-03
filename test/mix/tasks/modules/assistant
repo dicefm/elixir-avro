@@ -84,7 +84,9 @@ defmodule MyApp.AvroGenerated.Atp.Players.Assistant do
 
   defimpl Jason.Encoder, for: MyApp.AvroGenerated.Atp.Players.Assistant do
     def encode(value, opts) do
-      Jason.Encode.map(MyApp.AvroGenerated.Atp.Players.Assistant.to_avro(value), opts)
+      with {:ok, data} <- MyApp.AvroGenerated.Atp.Players.Assistant.to_avro(value) do
+        Jason.Encode.map(data, opts)
+      end
     end
   end
 end
