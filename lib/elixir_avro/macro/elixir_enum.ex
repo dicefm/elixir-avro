@@ -17,15 +17,23 @@ defmodule ElixirAvro.Macro.ElixirEnum do
         __MODULE__
         |> Module.get_attribute(:values, [])
         |> Enum.uniq()
-        |> Enum.map(&{&1 |> String.downcase() |> String.to_atom(), &1})
 
       if Enum.empty?(values) do
         raise "@values attribute should be set and not empty"
       end
 
-      Enum.map(values, fn {atom, string} ->
+      Enum.map(values, fn string ->
+        atom = string |> String.downcase() |> String.to_atom()
+        camel_atom = String.to_atom(string)
+
         def unquote(atom)(),
           do: unquote(atom)
+
+        def to_avro_string(unquote(string)),
+          do: unquote(string)
+
+        def to_avro_string(unquote(camel_atom)),
+          do: unquote(string)
 
         def to_avro_string(unquote(atom)),
           do: unquote(string)
