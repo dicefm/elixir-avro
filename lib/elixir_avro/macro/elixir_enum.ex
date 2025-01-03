@@ -27,7 +27,7 @@ defmodule ElixirAvro.Macro.ElixirEnum do
         camel_atom = String.to_atom(string)
 
         def unquote(atom)(),
-          do: unquote(atom)
+          do: unquote(camel_atom)
 
         def to_avro_string(unquote(string)),
           do: unquote(string)
@@ -39,7 +39,7 @@ defmodule ElixirAvro.Macro.ElixirEnum do
           do: unquote(string)
 
         def from_avro_string(unquote(string)),
-          do: unquote(atom)
+          do: unquote(camel_atom)
       end)
     end
   end
