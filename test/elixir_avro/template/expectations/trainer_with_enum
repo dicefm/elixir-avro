@@ -62,4 +62,10 @@ defmodule Prefix.Atp.Players.Trainer do
   def from_avro(_) do
     {:error, "Expected a map"}
   end
+
+  defimpl Jason.Encoder, for: Prefix.Atp.Players.Trainer do
+    def encode(value, opts) do
+      Jason.Encode.map(Prefix.Atp.Players.Trainer.to_avro(value), opts)
+    end
+  end
 end

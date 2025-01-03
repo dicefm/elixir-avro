@@ -41,4 +41,10 @@ defmodule <%= template.name %> do
   def from_avro(_) do
     {:error, "Expected a map"}
   end
+
+  defimpl Jason.Encoder, for: <%= template.name %> do
+    def encode(value, opts) do
+      Jason.Encode.map(<%= template.name %>.to_avro(value), opts)
+    end
+  end
 end

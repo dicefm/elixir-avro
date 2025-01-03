@@ -14,7 +14,8 @@ defmodule ElixirAvro.MixProject do
       package: package(),
       deps: deps(),
       docs: docs(),
-      dialyzer: [plt_add_apps: [:mix]]
+      dialyzer: [plt_add_apps: [:mix]],
+      consolidate_protocols: Mix.env() != :test
     ]
   end
 

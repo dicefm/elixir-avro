@@ -81,4 +81,10 @@ defmodule MyApp.AvroGenerated.Atp.Players.Assistant do
   def from_avro(_) do
     {:error, "Expected a map"}
   end
+
+  defimpl Jason.Encoder, for: MyApp.AvroGenerated.Atp.Players.Assistant do
+    def encode(value, opts) do
+      Jason.Encode.map(MyApp.AvroGenerated.Atp.Players.Assistant.to_avro(value), opts)
+    end
+  end
 end

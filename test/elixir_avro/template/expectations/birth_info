@@ -67,4 +67,10 @@ defmodule Prefix.Atp.Players.Info.BirthInfo do
   def from_avro(_) do
     {:error, "Expected a map"}
   end
+
+  defimpl Jason.Encoder, for: Prefix.Atp.Players.Info.BirthInfo do
+    def encode(value, opts) do
+      Jason.Encode.map(Prefix.Atp.Players.Info.BirthInfo.to_avro(value), opts)
+    end
+  end
 end
