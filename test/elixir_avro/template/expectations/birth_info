@@ -50,9 +50,10 @@ defmodule Prefix.Atp.Players.Info.BirthInfo do
              name: "int",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "date"}]
            },
-           @module_prefix
+           @module_prefix,
+           "birthday"
          ),
-       father: Decoder.decode_value!(father, "atp.players.info.Person", @module_prefix)
+       father: Decoder.decode_value!(father, "atp.players.info.Person", @module_prefix, "father")
      }}
   rescue
     e -> {:error, inspect(e)}

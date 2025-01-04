@@ -76,7 +76,7 @@ defmodule ElixirAvro.Template.Renderer do
   @spec fields_for_from_avro(Template.t()) :: String.t()
   def fields_for_from_avro(%Template{fields: fields}) do
     Enum.map_join(fields, ", ", fn %RecordField{name: name} = field ->
-      "#{name}: Decoder.decode_value!(#{name}, #{inspect(field.type)}, @module_prefix)"
+      "#{name}: Decoder.decode_value!(#{name}, #{inspect(field.type)}, @module_prefix, \"#{name}\")"
     end)
   end
 end

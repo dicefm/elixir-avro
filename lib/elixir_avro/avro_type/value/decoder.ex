@@ -100,11 +100,13 @@ defmodule ElixirAvro.AvroType.Value.Decoder do
   ** (ArgumentError) decoding error: no compatible type found
 
   """
-  @spec decode_value!(any(), AvroType.t(), String.t()) :: any() | no_return()
-  def decode_value!(value, type, module_prefix) do
+  @spec decode_value!(any(), AvroType.t(), String.t(), String.t() | nil) :: any() | no_return()
+  def decode_value!(value, type, module_prefix, hint \\ nil) do
     case decode_value(value, type, module_prefix) do
       {:ok, value} -> value
-      {:error, error} -> raise ArgumentError, "decoding error: #{error}"
+      {:error, error} ->
+        message = "decoding error: #{error}" <> if(hint, do: " #{hint}", else: "")
+        raise ArgumentError, message
     end
   end
 
