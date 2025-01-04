@@ -26,8 +26,8 @@ defmodule Mix.Tasks.ElixirAvro.Generate.CodeTest do
       generated_file_path = @target_path |> Path.join(@generation_path) |> Path.join(file)
       generated_content = File.read!(generated_file_path)
       IEx.Helpers.c(generated_file_path)
-      IO.puts( @target_path |> Path.join(@generation_path) |> Path.join(file))
-        IO.puts(@assertions_path |> Path.join(file) |> String.replace(".ex", ""))
+      IO.puts(@target_path |> Path.join(@generation_path) |> Path.join(file))
+      IO.puts(@assertions_path |> Path.join(file) |> String.replace(".ex", ""))
 
       asserted_content =
         @assertions_path |> Path.join(file) |> String.replace(".ex", "") |> File.read!()
