@@ -14,7 +14,7 @@ defmodule ElixirAvro.Template.Renderer do
   """
   @spec module_doc(Template.t()) :: String.t()
   def module_doc(%Template{fields: fields}) do
-    Enum.map_join(fields, "\n", &doc/1)
+    Enum.map_join(fields, "\n  ", &doc/1)
   end
 
   @spec doc(RecordField.t()) :: String.t()
