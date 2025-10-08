@@ -14,7 +14,7 @@ defmodule Mix.Tasks.ElixirAvroCodegen do
   use Mix.Task
 
   @aliases [v: :verbose, t: :target_path, s: :schemas_path, p: :prefix]
-  @strict [target_path: :string, schemas_path: :string, prefix: :string, verbose: :count]
+  @strict [target_path: :string, schemas_path: :string, prefix: :string, verbose: :boolean]
 
   @impl Mix.Task
   def run(args) do
