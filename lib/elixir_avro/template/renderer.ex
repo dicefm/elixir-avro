@@ -8,6 +8,7 @@ defmodule ElixirAvro.Template.Renderer do
   alias ElixirAvro.Template.Spec
 
   @excribe_opts %{hanging: 6, width: 80, indent: 0, align: :left}
+  @inspect_opts [limit: :infinity, printable_limit: :infinity, charlists: :as_lists]
 
   @doc """
   Renders the @moduledoc documentation for the given fields.
@@ -21,15 +22,61 @@ defmodule ElixirAvro.Template.Renderer do
   defp doc(field) do
     "- __#{field.name}__: #{field.doc}"
     |> String.trim()
+    |> Kernel.<>(default_doc(field))
     |> Excribe.format(@excribe_opts)
   end
 
+  @spec default_doc(RecordField.t()) :: String.t()
+  defp default_doc(field) do
+    if RecordField.default?(field) do
+      " (default: `#{inspect(field.default, @inspect_opts)}`)"
+    else
+      ""
+    end
+  end
+
   @doc """
-  Renders the @expected_keys module attribute for the given fields.
+  Renders the @expected_keys module attribute: the fields without a default, which a payload must
+  have.
   """
   @spec expected_keys(Template.t()) :: String.t()
   def expected_keys(%Template{fields: fields}) do
-    "[#{Enum.map_join(fields, ", ", &~s/"#{&1.name}"/)}]"
+    required = Enum.reject(fields, &RecordField.default?/1)
+    "[#{Enum.map_join(required, ", ", &~s/"#{&1.name}"/)}]"
+  end
+
+  @doc """
+  Returns whether any field of the record has a default.
+  """
+  @spec defaults?(Template.t()) :: boolean()
+  def defaults?(%Template{fields: fields}), do: Enum.any?(fields, &RecordField.default?/1)
+
+  @doc """
+  Renders the @defaults module attribute: the wire value of each field with a default, keyed by
+  the field name.
+  """
+  @spec defaults(Template.t()) :: String.t()
+  def defaults(%Template{fields: fields}) do
+    pairs =
+      fields
+      |> Enum.filter(&RecordField.default?/1)
+      |> Enum.map_join(", ", &"#{inspect(&1.name)} => #{inspect(&1.default, @inspect_opts)}")
+
+    "%{#{pairs}}"
+  end
+
+  @doc """
+  Renders the guards of the `from_avro/1` clause that fills in defaults, one `when` per field with
+  a default: the clause matches when the `avro` payload lacks any of their keys.
+
+  Separate guards rather than one `and` chain keep the clause readable, and within credo's
+  cyclomatic complexity limit, however many fields have a default.
+  """
+  @spec default_key_missing_guards(Template.t()) :: String.t()
+  def default_key_missing_guards(%Template{fields: fields}) do
+    fields
+    |> Enum.filter(&RecordField.default?/1)
+    |> Enum.map_join(" when ", &~s/not is_map_key(avro, "#{&1.name}")/)
   end
 
   @doc """

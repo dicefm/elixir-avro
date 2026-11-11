@@ -1,0 +1,122 @@
+{
+    "type": "record",
+    "name": "DefaultsExample",
+    "namespace": "io.confluent",
+    "doc": "Required fields next to fields with defaults.",
+    "fields": [
+        {
+            "name": "required_string",
+            "type": "string"
+        },
+        {
+            "name": "required_int",
+            "type": "int"
+        },
+        {
+            "name": "null_field",
+            "type": "null",
+            "default": null
+        },
+        {
+            "name": "boolean_field",
+            "type": "boolean",
+            "default": true
+        },
+        {
+            "name": "int_field",
+            "type": "int",
+            "default": 7
+        },
+        {
+            "name": "long_field",
+            "type": "long",
+            "default": 9000000000
+        },
+        {
+            "name": "float_field",
+            "type": "float",
+            "default": 1.5
+        },
+        {
+            "name": "double_field",
+            "type": "double",
+            "default": 2
+        },
+        {
+            "name": "string_field",
+            "type": "string",
+            "default": "default string"
+        },
+        {
+            "name": "date_field",
+            "type": {
+                "type": "int",
+                "logicalType": "date"
+            },
+            "default": 19754
+        },
+        {
+            "name": "enum_field",
+            "type": {
+                "type": "enum",
+                "name": "DefaultsEnum",
+                "symbols": [
+                    "FIRST",
+                    "SECOND"
+                ]
+            },
+            "default": "SECOND"
+        },
+        {
+            "name": "nullable_field",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null
+        },
+        {
+            "name": "nullable_enum_field",
+            "type": [
+                "null",
+                "DefaultsEnum"
+            ],
+            "default": null
+        },
+        {
+            "name": "string_or_null_field",
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": "first branch"
+        },
+        {
+            "name": "array_field",
+            "type": {
+                "type": "array",
+                "items": "string"
+            },
+            "default": []
+        },
+        {
+            "name": "map_field",
+            "type": {
+                "type": "map",
+                "values": "int"
+            },
+            "default": {}
+        },
+        {
+            "name": "filled_array_field",
+            "type": {
+                "type": "array",
+                "items": "long"
+            },
+            "default": [
+                1,
+                2
+            ]
+        }
+    ]
+}

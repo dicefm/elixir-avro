@@ -58,14 +58,16 @@ defmodule MyApp.AvroGenerated.Atp.Players.Assistant do
              name: "string",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "uuid"}]
            },
-           @module_prefix
+           @module_prefix,
+           "assistant_id"
          ),
-       trainer: Decoder.decode_value!(trainer, "atp.players.Trainer", @module_prefix),
+       trainer: Decoder.decode_value!(trainer, "atp.players.Trainer", @module_prefix, "trainer"),
        players:
          Decoder.decode_value!(
            players,
            %ElixirAvro.AvroType.Array{type: "atp.players.PlayerRegistered", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "players"
          )
      }}
   rescue

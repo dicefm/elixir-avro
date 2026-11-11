@@ -53,22 +53,19 @@ defmodule Prefix.Atp.Players.PlayerRegisteredTwoLevelsNestingRecords do
              name: "string",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "uuid"}]
            },
-           @module_prefix,
-           "player_id"
+           @module_prefix
          ),
        "full_name" =>
          Encoder.encode_value!(
            struct.full_name,
            %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
-           @module_prefix,
-           "full_name"
+           @module_prefix
          ),
        "rank" =>
          Encoder.encode_value!(
            struct.rank,
            %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
-           @module_prefix,
-           "rank"
+           @module_prefix
          ),
        "registration_date" =>
          Encoder.encode_value!(
@@ -77,8 +74,7 @@ defmodule Prefix.Atp.Players.PlayerRegisteredTwoLevelsNestingRecords do
              name: "int",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "date"}]
            },
-           @module_prefix,
-           "registration_date"
+           @module_prefix
          ),
        "sponsor_name" =>
          Encoder.encode_value!(
@@ -89,12 +85,11 @@ defmodule Prefix.Atp.Players.PlayerRegisteredTwoLevelsNestingRecords do
                1 => %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []}
              }
            },
-           @module_prefix,
-           "sponsor_name"
+           @module_prefix
          ),
-       "trainer" => Encoder.encode_value!(struct.trainer, "atp.players.Trainer", @module_prefix, "trainer"),
+       "trainer" => Encoder.encode_value!(struct.trainer, "atp.players.Trainer", @module_prefix),
        "birth_info" =>
-         Encoder.encode_value!(struct.birth_info, "atp.players.info.BirthInfo", @module_prefix, "borth_info")
+         Encoder.encode_value!(struct.birth_info, "atp.players.info.BirthInfo", @module_prefix)
      }}
   end
 
@@ -116,19 +111,22 @@ defmodule Prefix.Atp.Players.PlayerRegisteredTwoLevelsNestingRecords do
              name: "string",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "uuid"}]
            },
-           @module_prefix
+           @module_prefix,
+           "player_id"
          ),
        full_name:
          Decoder.decode_value!(
            full_name,
            %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "full_name"
          ),
        rank:
          Decoder.decode_value!(
            rank,
            %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "rank"
          ),
        registration_date:
          Decoder.decode_value!(
@@ -137,7 +135,8 @@ defmodule Prefix.Atp.Players.PlayerRegisteredTwoLevelsNestingRecords do
              name: "int",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "date"}]
            },
-           @module_prefix
+           @module_prefix,
+           "registration_date"
          ),
        sponsor_name:
          Decoder.decode_value!(
@@ -148,10 +147,17 @@ defmodule Prefix.Atp.Players.PlayerRegisteredTwoLevelsNestingRecords do
                1 => %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []}
              }
            },
-           @module_prefix
+           @module_prefix,
+           "sponsor_name"
          ),
-       trainer: Decoder.decode_value!(trainer, "atp.players.Trainer", @module_prefix),
-       birth_info: Decoder.decode_value!(birth_info, "atp.players.info.BirthInfo", @module_prefix)
+       trainer: Decoder.decode_value!(trainer, "atp.players.Trainer", @module_prefix, "trainer"),
+       birth_info:
+         Decoder.decode_value!(
+           birth_info,
+           "atp.players.info.BirthInfo",
+           @module_prefix,
+           "birth_info"
+         )
      }}
   rescue
     e -> {:error, inspect(e)}

@@ -111,7 +111,12 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
     {:ok,
      %__MODULE__{
        external_system_id:
-         Decoder.decode_value!(external_system_id, "atp.players.MongoId", @module_prefix),
+         Decoder.decode_value!(
+           external_system_id,
+           "atp.players.MongoId",
+           @module_prefix,
+           "external_system_id"
+         ),
        player_id:
          Decoder.decode_value!(
            player_id,
@@ -119,19 +124,22 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
              name: "string",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "uuid"}]
            },
-           @module_prefix
+           @module_prefix,
+           "player_id"
          ),
        full_name:
          Decoder.decode_value!(
            full_name,
            %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "full_name"
          ),
        rank:
          Decoder.decode_value!(
            rank,
            %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "rank"
          ),
        registration_date:
          Decoder.decode_value!(
@@ -140,7 +148,8 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
              name: "int",
              custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "date"}]
            },
-           @module_prefix
+           @module_prefix,
+           "registration_date"
          ),
        sponsor_name:
          Decoder.decode_value!(
@@ -151,10 +160,12 @@ defmodule MyApp.AvroGenerated.Atp.Players.PlayerRegistered do
                1 => %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []}
              }
            },
-           @module_prefix
+           @module_prefix,
+           "sponsor_name"
          ),
-       trainer: Decoder.decode_value!(trainer, "atp.players.Trainer", @module_prefix),
-       assistant: Decoder.decode_value!(assistant, "atp.players.Assistant", @module_prefix)
+       trainer: Decoder.decode_value!(trainer, "atp.players.Trainer", @module_prefix, "trainer"),
+       assistant:
+         Decoder.decode_value!(assistant, "atp.players.Assistant", @module_prefix, "assistant")
      }}
   rescue
     e -> {:error, inspect(e)}

@@ -65,6 +65,19 @@ defmodule ElixirAvro.Schema.ResolverTest do
     end
   end
 
+  describe "defaults" do
+    test "record with defaulted fields" do
+      expected = %{
+        "atp.players.PlayerWithDefaults" => TestUtils.player_with_defaults_erl(),
+        "atp.players.Hand" => TestUtils.hand_erl()
+      }
+
+      types = resolve_types(File.read!("#{@schemas_path}/player_with_defaults.avsc"))
+
+      assert expected == types
+    end
+  end
+
   describe "mixed inline and cross" do
     test "two levels of nested records" do
       expected = %{

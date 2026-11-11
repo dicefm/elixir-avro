@@ -1,0 +1,273 @@
+defmodule Prefix.Atp.Players.PlayerWithDefaults do
+  @moduledoc """
+  DO NOT EDIT MANUALLY: This module was automatically generated from an AVRO schema.
+
+  ### Description
+  A player whose newer fields have defaults.
+
+  ### Fields
+  - __player_id__: The unique identifier of the player (UUID).
+  - __full_name__: The full name of the player.
+  - __nickname__: The nickname of the player (optional). (default: `nil`)
+  - __active__: (default: `true`)
+  - __titles__: (default: `0`)
+  - __prize_money__: (default: `0`)
+  - __height__: (default: `1.85`)
+  - __country__: (default: `"unknown"`)
+  - __hand__: (default: `"RIGHT"`)
+  - __coaches__: (default: `[]`)
+  - __ranking_points__: (default: `%{}`)
+  """
+
+  use TypedStruct
+
+  alias ElixirAvro.AvroType.Value.Decoder
+  alias ElixirAvro.AvroType.Value.Encoder
+
+  @expected_keys MapSet.new(["player_id", "full_name"])
+
+  @defaults %{
+    "nickname" => nil,
+    "active" => true,
+    "titles" => 0,
+    "prize_money" => 0,
+    "height" => 1.85,
+    "country" => "unknown",
+    "hand" => "RIGHT",
+    "coaches" => [],
+    "ranking_points" => %{}
+  }
+
+  typedstruct do
+    field :player_id, String.t(), enforce: true
+    field :full_name, String.t(), enforce: true
+    field :nickname, nil | String.t(), enforce: false
+    field :active, boolean(), enforce: true
+    field :titles, integer(), enforce: true
+    field :prize_money, integer(), enforce: true
+    field :height, float(), enforce: true
+    field :country, String.t(), enforce: true
+    field :hand, Prefix.Atp.Players.Hand.t(), enforce: true
+    field :coaches, [String.t()], enforce: true
+    field :ranking_points, %{String.t() => integer()}, enforce: true
+  end
+
+  @module_prefix Prefix
+
+  def to_avro(%__MODULE__{} = struct) do
+    {:ok,
+     %{
+       "player_id" =>
+         Encoder.encode_value!(
+           struct.player_id,
+           %ElixirAvro.AvroType.Primitive{
+             name: "string",
+             custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "uuid"}]
+           },
+           @module_prefix
+         ),
+       "full_name" =>
+         Encoder.encode_value!(
+           struct.full_name,
+           %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
+           @module_prefix
+         ),
+       "nickname" =>
+         Encoder.encode_value!(
+           struct.nickname,
+           %ElixirAvro.AvroType.Union{
+             values: %{
+               0 => %ElixirAvro.AvroType.Primitive{name: "null", custom_props: []},
+               1 => %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []}
+             }
+           },
+           @module_prefix
+         ),
+       "active" =>
+         Encoder.encode_value!(
+           struct.active,
+           %ElixirAvro.AvroType.Primitive{name: "boolean", custom_props: []},
+           @module_prefix
+         ),
+       "titles" =>
+         Encoder.encode_value!(
+           struct.titles,
+           %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
+           @module_prefix
+         ),
+       "prize_money" =>
+         Encoder.encode_value!(
+           struct.prize_money,
+           %ElixirAvro.AvroType.Primitive{name: "long", custom_props: []},
+           @module_prefix
+         ),
+       "height" =>
+         Encoder.encode_value!(
+           struct.height,
+           %ElixirAvro.AvroType.Primitive{name: "double", custom_props: []},
+           @module_prefix
+         ),
+       "country" =>
+         Encoder.encode_value!(
+           struct.country,
+           %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
+           @module_prefix
+         ),
+       "hand" => Encoder.encode_value!(struct.hand, "atp.players.Hand", @module_prefix),
+       "coaches" =>
+         Encoder.encode_value!(
+           struct.coaches,
+           %ElixirAvro.AvroType.Array{
+             type: %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
+             custom_props: []
+           },
+           @module_prefix
+         ),
+       "ranking_points" =>
+         Encoder.encode_value!(
+           struct.ranking_points,
+           %ElixirAvro.AvroType.Map{
+             type: %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
+             custom_props: []
+           },
+           @module_prefix
+         )
+     }}
+  end
+
+  def from_avro(%{} = avro)
+      when not is_map_key(avro, "nickname")
+      when not is_map_key(avro, "active")
+      when not is_map_key(avro, "titles")
+      when not is_map_key(avro, "prize_money")
+      when not is_map_key(avro, "height")
+      when not is_map_key(avro, "country")
+      when not is_map_key(avro, "hand")
+      when not is_map_key(avro, "coaches")
+      when not is_map_key(avro, "ranking_points") do
+    from_avro(Map.merge(@defaults, avro))
+  end
+
+  def from_avro(%{
+        "player_id" => player_id,
+        "full_name" => full_name,
+        "nickname" => nickname,
+        "active" => active,
+        "titles" => titles,
+        "prize_money" => prize_money,
+        "height" => height,
+        "country" => country,
+        "hand" => hand,
+        "coaches" => coaches,
+        "ranking_points" => ranking_points
+      }) do
+    {:ok,
+     %__MODULE__{
+       player_id:
+         Decoder.decode_value!(
+           player_id,
+           %ElixirAvro.AvroType.Primitive{
+             name: "string",
+             custom_props: [%ElixirAvro.AvroType.CustomProp{name: "logicalType", value: "uuid"}]
+           },
+           @module_prefix,
+           "player_id"
+         ),
+       full_name:
+         Decoder.decode_value!(
+           full_name,
+           %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
+           @module_prefix,
+           "full_name"
+         ),
+       nickname:
+         Decoder.decode_value!(
+           nickname,
+           %ElixirAvro.AvroType.Union{
+             values: %{
+               0 => %ElixirAvro.AvroType.Primitive{name: "null", custom_props: []},
+               1 => %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []}
+             }
+           },
+           @module_prefix,
+           "nickname"
+         ),
+       active:
+         Decoder.decode_value!(
+           active,
+           %ElixirAvro.AvroType.Primitive{name: "boolean", custom_props: []},
+           @module_prefix,
+           "active"
+         ),
+       titles:
+         Decoder.decode_value!(
+           titles,
+           %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
+           @module_prefix,
+           "titles"
+         ),
+       prize_money:
+         Decoder.decode_value!(
+           prize_money,
+           %ElixirAvro.AvroType.Primitive{name: "long", custom_props: []},
+           @module_prefix,
+           "prize_money"
+         ),
+       height:
+         Decoder.decode_value!(
+           height,
+           %ElixirAvro.AvroType.Primitive{name: "double", custom_props: []},
+           @module_prefix,
+           "height"
+         ),
+       country:
+         Decoder.decode_value!(
+           country,
+           %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
+           @module_prefix,
+           "country"
+         ),
+       hand: Decoder.decode_value!(hand, "atp.players.Hand", @module_prefix, "hand"),
+       coaches:
+         Decoder.decode_value!(
+           coaches,
+           %ElixirAvro.AvroType.Array{
+             type: %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
+             custom_props: []
+           },
+           @module_prefix,
+           "coaches"
+         ),
+       ranking_points:
+         Decoder.decode_value!(
+           ranking_points,
+           %ElixirAvro.AvroType.Map{
+             type: %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
+             custom_props: []
+           },
+           @module_prefix,
+           "ranking_points"
+         )
+     }}
+  rescue
+    e -> {:error, inspect(e)}
+  end
+
+  def from_avro(%{} = invalid) do
+    actual = invalid |> Map.keys() |> MapSet.new()
+    missing = @expected_keys |> MapSet.difference(actual) |> Enum.join(", ")
+    {:error, "Missing keys: " <> missing}
+  end
+
+  def from_avro(_) do
+    {:error, "Expected a map"}
+  end
+
+  defimpl Jason.Encoder, for: Prefix.Atp.Players.PlayerWithDefaults do
+    def encode(value, opts) do
+      with {:ok, data} <- Prefix.Atp.Players.PlayerWithDefaults.to_avro(value) do
+        Jason.Encode.map(data, opts)
+      end
+    end
+  end
+end
