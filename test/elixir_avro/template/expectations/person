@@ -49,13 +49,15 @@ defmodule Prefix.Atp.Players.Info.Person do
          Decoder.decode_value!(
            fullname,
            %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "fullname"
          ),
        age:
          Decoder.decode_value!(
            age,
            %ElixirAvro.AvroType.Primitive{name: "int", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "age"
          )
      }}
   rescue

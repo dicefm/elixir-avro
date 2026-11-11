@@ -41,7 +41,8 @@ defmodule Prefix.Atp.Players.Trainer do
          Decoder.decode_value!(
            fullname,
            %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "fullname"
          )
      }}
   rescue

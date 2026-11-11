@@ -45,9 +45,16 @@ defmodule Prefix.Atp.Players.Trainer do
          Decoder.decode_value!(
            fullname,
            %ElixirAvro.AvroType.Primitive{name: "string", custom_props: []},
-           @module_prefix
+           @module_prefix,
+           "fullname"
          ),
-       level: Decoder.decode_value!(level, "atp.players.trainers.TrainerLevel", @module_prefix)
+       level:
+         Decoder.decode_value!(
+           level,
+           "atp.players.trainers.TrainerLevel",
+           @module_prefix,
+           "level"
+         )
      }}
   rescue
     e -> {:error, inspect(e)}
