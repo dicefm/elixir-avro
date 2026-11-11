@@ -161,7 +161,7 @@ defmodule ElixirAvro.Template.Spec do
   end
 
   def to_typedstruct_spec!(%Union{values: union_values}, module_prefix) do
-    Enum.map_join(union_values, " | ", fn {_id, type} ->
+    Enum.map_join(union_values, " | ", fn {_, type} ->
       to_typedstruct_spec!(type, module_prefix)
     end)
   end

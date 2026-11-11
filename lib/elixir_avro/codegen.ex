@@ -43,7 +43,9 @@ defmodule ElixirAvro.Codegen do
     |> File.mkdir_p!()
 
     case File.read(module_path) do
-      {:ok, ^module_content} -> :ok
+      {:ok, ^module_content} ->
+        :ok
+
       _ ->
         File.write!(module_path, module_content)
         log("Generated #{module_path}", args)

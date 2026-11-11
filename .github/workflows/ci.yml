@@ -6,14 +6,16 @@ jobs:
   ci:
     # Avoid duplicate jobs on PR from a branch on the same repo
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-    runs-on: ubuntu-latest
+    # Pinned: setup-beam installs OTP prebuilt for this exact image, and each
+    # image has its own list of OTP versions.
+    runs-on: ubuntu-26.04
     env:
       MIX_ENV: test
     steps:
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: 25
-          elixir-version: 1.15
+          otp-version: '28'
+          elixir-version: '1.19'
 
       # Check out the code.
       - name: Checkout
