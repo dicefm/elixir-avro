@@ -27,7 +27,7 @@ on:
 
 jobs:
   retire:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     env:
       MESSAGE: ${{ inputs.message }}
       REASON: ${{ inputs.reason }}
@@ -36,8 +36,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: 25
-          elixir-version: 1.15
+          otp-version: '28'
+          elixir-version: '1.19'
       - run: echo "Attempting to retire version $VERSION"
       - run: mix hex.config api_key "$HEX_AUTH_KEY"
         env:

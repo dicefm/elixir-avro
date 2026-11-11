@@ -6,13 +6,13 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Setup Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: 25
-          elixir-version: 1.15
+          otp-version: '28'
+          elixir-version: '1.19'
       - name: Checkout
         uses: actions/checkout@v3
       - name: setup hex
