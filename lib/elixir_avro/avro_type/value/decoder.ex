@@ -103,7 +103,9 @@ defmodule ElixirAvro.AvroType.Value.Decoder do
   @spec decode_value!(any(), AvroType.t(), String.t(), String.t() | nil) :: any() | no_return()
   def decode_value!(value, type, module_prefix, hint \\ nil) do
     case decode_value(value, type, module_prefix) do
-      {:ok, value} -> value
+      {:ok, value} ->
+        value
+
       {:error, error} ->
         message = "decoding error: #{error}" <> if(hint, do: " #{hint}", else: "")
         raise ArgumentError, message
@@ -136,7 +138,7 @@ defmodule ElixirAvro.AvroType.Value.Decoder do
   defp decode_value(value, %Union{values: union_values}, module_prefix) do
     error = {:error, "no compatible type found"}
 
-    Enum.reduce_while(union_values, error, fn {_id, type}, res ->
+    Enum.reduce_while(union_values, error, fn {_, type}, res ->
       case decode_value(value, type, module_prefix) do
         {:ok, decoded} -> {:halt, {:ok, decoded}}
         _ -> {:cont, res}

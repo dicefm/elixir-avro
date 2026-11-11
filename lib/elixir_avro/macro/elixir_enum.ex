@@ -5,13 +5,13 @@ defmodule ElixirAvro.Macro.ElixirEnum do
   This macro will be used by the generated code, when enums, to create convenient function to access the enum variants.
   """
 
-  defmacro __using__(_opts) do
+  defmacro __using__(_) do
     quote do
       @before_compile unquote(__MODULE__)
     end
   end
 
-  defmacro __before_compile__(_env) do
+  defmacro __before_compile__(_) do
     quote unquote: false do
       values =
         __MODULE__

@@ -7,7 +7,7 @@ defmodule ElixirAvro.E2ETest do
   end
 
   setup_all do
-    {:ok, _pid} = AvroraClient.start_link()
+    {:ok, _} = AvroraClient.start_link()
 
     schemas_path = Path.join(__DIR__, "e2e/avro_schemas")
     target_path = Path.join(__DIR__, "e2e/generated")
@@ -39,7 +39,7 @@ defmodule ElixirAvro.E2ETest do
 
     avro_struct = to_avro.all_types_example(:struct)
 
-    assert {:ok, _value} = Jason.encode(avro_struct)
+    assert {:ok, _} = Jason.encode(avro_struct)
   end
 
   test "encode and decode" do

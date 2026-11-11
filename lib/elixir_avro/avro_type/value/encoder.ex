@@ -146,7 +146,7 @@ defmodule ElixirAvro.AvroType.Value.Encoder do
   defp encode_value(value, %Union{values: union_values}, module_prefix) do
     error = {:error, "no compatible type found"}
 
-    Enum.reduce_while(union_values, error, fn {_id, type}, res ->
+    Enum.reduce_while(union_values, error, fn {_, type}, res ->
       case encode_value(value, type, module_prefix) do
         {:ok, encoded} -> {:halt, {:ok, encoded}}
         _ -> {:cont, res}
