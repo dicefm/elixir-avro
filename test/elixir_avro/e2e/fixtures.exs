@@ -84,4 +84,59 @@ defmodule ElixirAvro.E2E.Fixtures do
       }
     )
   end
+
+  def defaults_example(:defaults) do
+    %MyApp.AvroGenerated.Io.Confluent.DefaultsExample{
+      required_string: "required",
+      required_int: 1,
+      null_field: nil,
+      boolean_field: true,
+      int_field: 7,
+      long_field: 9_000_000_000,
+      float_field: 1.5,
+      double_field: 2.0,
+      string_field: "default string",
+      date_field: ~D[2024-02-01],
+      enum_field: MyApp.AvroGenerated.Io.Confluent.DefaultsEnum.second(),
+      nullable_field: nil,
+      nullable_enum_field: nil,
+      string_or_null_field: "first branch",
+      array_field: [],
+      map_field: %{},
+      filled_array_field: [1, 2]
+    }
+  end
+
+  # Every field that has a default holds another value.
+  def defaults_example(:struct) do
+    %MyApp.AvroGenerated.Io.Confluent.DefaultsExample{
+      required_string: "required",
+      required_int: 1,
+      null_field: nil,
+      boolean_field: false,
+      int_field: 8,
+      long_field: 1,
+      float_field: 2.5,
+      double_field: 3.25,
+      string_field: "given string",
+      date_field: ~D[2024-03-01],
+      enum_field: MyApp.AvroGenerated.Io.Confluent.DefaultsEnum.first(),
+      nullable_field: "given",
+      nullable_enum_field: MyApp.AvroGenerated.Io.Confluent.DefaultsEnum.first(),
+      string_or_null_field: nil,
+      array_field: ["item"],
+      map_field: %{"key" => 1},
+      filled_array_field: []
+    }
+  end
+
+  def defaults_example(:map) do
+    :struct
+    |> defaults_example()
+    |> MyApp.AvroGenerated.Io.Confluent.DefaultsExample.to_avro()
+  end
+
+  def defaults_example(:from_avro, map) do
+    MyApp.AvroGenerated.Io.Confluent.DefaultsExample.from_avro(map)
+  end
 end

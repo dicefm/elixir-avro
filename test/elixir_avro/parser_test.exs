@@ -58,4 +58,10 @@ defmodule ElixirAvro.Schema.ParserTest do
     expected = [TestUtils.trainer_level_ex()]
     assert Parser.from_erl_types([erlavro_schema]) == expected
   end
+
+  test "player_with_defaults can be parsed, with its defaults in the wire representation" do
+    erlavro_schema = TestUtils.player_with_defaults_erl()
+    expected = [TestUtils.player_with_defaults_ex()]
+    assert Parser.from_erl_types([erlavro_schema]) == expected
+  end
 end

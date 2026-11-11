@@ -15,7 +15,9 @@ defmodule <%= template.name %> do
   alias ElixirAvro.AvroType.Value.Encoder
 
   @expected_keys MapSet.new(<%= ElixirAvro.Template.Renderer.expected_keys(template) %>)
-
+<%= if ElixirAvro.Template.Renderer.defaults?(template) do %>
+  @defaults <%= ElixirAvro.Template.Renderer.defaults(template) %>
+<% end %>
   typedstruct do
     <%= ElixirAvro.Template.Renderer.typedstruct_fields(template) %>
   end
@@ -25,7 +27,11 @@ defmodule <%= template.name %> do
   def to_avro(%__MODULE__{} = struct) do
     {:ok, %{<%= ElixirAvro.Template.Renderer.fields_for_to_avro(template) %>}}
   end
-
+<%= if ElixirAvro.Template.Renderer.defaults?(template) do %>
+  def from_avro(%{} = avro) when <%= ElixirAvro.Template.Renderer.default_key_missing_guards(template) %> do
+    from_avro(Map.merge(@defaults, avro))
+  end
+<% end %>
   def from_avro(%{<%= ElixirAvro.Template.Renderer.args_for_from_avro(template) %>}) do
     {:ok, %__MODULE__{ <%= ElixirAvro.Template.Renderer.fields_for_from_avro(template) %> }}
     rescue

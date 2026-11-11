@@ -63,6 +63,17 @@ defmodule ElixirAvro.TemplateTest do
     assert Template.eval_all!(ex_types, @prefix) == expected
   end
 
+  test "player_with_defaults can be rendered" do
+    ex_types = [TestUtils.player_with_defaults_ex()]
+
+    expected = %{
+      "#{@prefix}.Atp.Players.PlayerWithDefaults" =>
+        TestUtils.player_with_defaults_module_content()
+    }
+
+    assert Template.eval_all!(ex_types, @prefix) == expected
+  end
+
   test "trainer_level can be rendered" do
     ex_types = [TestUtils.trainer_level_ex()]
 

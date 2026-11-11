@@ -1,0 +1,83 @@
+{
+    "doc": "A player whose newer fields have defaults.",
+    "type": "record",
+    "name": "PlayerWithDefaults",
+    "namespace": "atp.players",
+    "fields": [
+        {
+            "name": "player_id",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            },
+            "doc": "The unique identifier of the player (UUID)."
+        },
+        {
+            "name": "full_name",
+            "type": "string",
+            "doc": "The full name of the player."
+        },
+        {
+            "name": "nickname",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "The nickname of the player (optional)."
+        },
+        {
+            "name": "active",
+            "type": "boolean",
+            "default": true
+        },
+        {
+            "name": "titles",
+            "type": "int",
+            "default": 0
+        },
+        {
+            "name": "prize_money",
+            "type": "long",
+            "default": 0
+        },
+        {
+            "name": "height",
+            "type": "double",
+            "default": 1.85
+        },
+        {
+            "name": "country",
+            "type": "string",
+            "default": "unknown"
+        },
+        {
+            "name": "hand",
+            "type": {
+                "type": "enum",
+                "name": "Hand",
+                "symbols": [
+                    "LEFT",
+                    "RIGHT"
+                ]
+            },
+            "default": "RIGHT"
+        },
+        {
+            "name": "coaches",
+            "type": {
+                "type": "array",
+                "items": "string"
+            },
+            "default": []
+        },
+        {
+            "name": "ranking_points",
+            "type": {
+                "type": "map",
+                "values": "int"
+            },
+            "default": {}
+        }
+    ]
+}

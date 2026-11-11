@@ -21,6 +21,8 @@ defmodule ElixirAvro.E2ETest do
 
     assert files == [
              "all_types_example.ex",
+             "defaults_enum.ex",
+             "defaults_example.ex",
              "example_enum.ex",
              "example_record.ex",
              "nested_enum.ex",
@@ -129,6 +131,58 @@ defmodule ElixirAvro.E2ETest do
               "union_field" => [124, 1_000_001],
               "uuid_field" => "34de4cfa-ced0-4b4a-bf2d-bd2e9283a40a"
             }} = AvroraClient.decode_plain(encoded, schema_name: "AllTypesExample")
+  end
+
+  describe "defaults" do
+    @required %{"required_string" => "required", "required_int" => 1}
+
+    test "from_avro gives the defaults for the absent keys" do
+      fixtures = ElixirAvro.E2E.Fixtures
+
+      assert {:ok, fixtures.defaults_example(:defaults)} ==
+               fixtures.defaults_example(:from_avro, @required)
+    end
+
+    test "from_avro gives the present values over the defaults" do
+      fixtures = ElixirAvro.E2E.Fixtures
+
+      assert {:ok, avro_map} = fixtures.defaults_example(:map)
+
+      assert {:ok, fixtures.defaults_example(:struct)} ==
+               fixtures.defaults_example(:from_avro, avro_map)
+
+      assert {:ok, %{string_or_null_field: nil, int_field: 7}} =
+               fixtures.defaults_example(
+                 :from_avro,
+                 Map.put(@required, "string_or_null_field", nil)
+               )
+    end
+
+    test "from_avro names only the absent required keys" do
+      fixtures = ElixirAvro.E2E.Fixtures
+
+      assert {:error, "Missing keys: required_int, required_string"} ==
+               fixtures.defaults_example(:from_avro, %{})
+
+      assert {:error, "Missing keys: required_int"} ==
+               fixtures.defaults_example(:from_avro, %{
+                 "required_string" => "required",
+                 "boolean_field" => false
+               })
+    end
+
+    test "to_avro emits every field and from_avro reads it back, also through Avro" do
+      fixtures = ElixirAvro.E2E.Fixtures
+
+      assert {:ok, avro_map} = fixtures.defaults_example(:map)
+      assert map_size(avro_map) == 17
+
+      assert {:ok, encoded} = AvroraClient.encode_plain(avro_map, schema_name: "DefaultsExample")
+      assert {:ok, decoded} = AvroraClient.decode_plain(encoded, schema_name: "DefaultsExample")
+
+      assert {:ok, fixtures.defaults_example(:struct)} ==
+               fixtures.defaults_example(:from_avro, decoded)
+    end
   end
 end
 

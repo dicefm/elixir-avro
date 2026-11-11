@@ -526,4 +526,158 @@ defmodule ElixirAvro.TestUtils do
   def trainer_level_module_content do
     __DIR__ |> Path.join("#{@expectations_folder}/trainer_level") |> File.read!()
   end
+
+  def player_with_defaults_erl do
+    {:avro_record_type, "PlayerWithDefaults", "atp.players",
+     "A player whose newer fields have defaults.", [],
+     [
+       {:avro_record_field, "player_id", "The unique identifier of the player (UUID).",
+        {:avro_primitive_type, "string", [{"logicalType", "uuid"}]}, :undefined, :ascending, []},
+       {:avro_record_field, "full_name", "The full name of the player.",
+        {:avro_primitive_type, "string", []}, :undefined, :ascending, []},
+       {:avro_record_field, "nickname", "The nickname of the player (optional).",
+        {:avro_union_type,
+         {2,
+          {1, {:avro_primitive_type, "string", []},
+           {0, {:avro_primitive_type, "null", []}, nil, nil}, nil}},
+         {2, {"string", {1, true}, {"null", {0, true}, nil, nil}, nil}}}, :null, :ascending, []},
+       {:avro_record_field, "active", "", {:avro_primitive_type, "boolean", []}, true, :ascending,
+        []},
+       {:avro_record_field, "titles", "", {:avro_primitive_type, "int", []}, 0, :ascending, []},
+       {:avro_record_field, "prize_money", "", {:avro_primitive_type, "long", []}, 0, :ascending,
+        []},
+       {:avro_record_field, "height", "", {:avro_primitive_type, "double", []}, 1.85, :ascending,
+        []},
+       {:avro_record_field, "country", "", {:avro_primitive_type, "string", []}, "unknown",
+        :ascending, []},
+       {:avro_record_field, "hand", "", "atp.players.Hand", "RIGHT", :ascending, []},
+       {:avro_record_field, "coaches", "",
+        {:avro_array_type, {:avro_primitive_type, "string", []}, []}, [], :ascending, []},
+       {:avro_record_field, "ranking_points", "",
+        {:avro_map_type, {:avro_primitive_type, "int", []}, []}, [], :ascending, []}
+     ], "atp.players.PlayerWithDefaults", []}
+  end
+
+  def player_with_defaults_ex do
+    %Record{
+      name: "PlayerWithDefaults",
+      fullname: "atp.players.PlayerWithDefaults",
+      namespace: "atp.players",
+      doc: "A player whose newer fields have defaults.",
+      fields: [
+        %RecordField{
+          name: "player_id",
+          type: %Primitive{
+            name: "string",
+            custom_props: [%CustomProp{name: "logicalType", value: "uuid"}]
+          },
+          doc: "The unique identifier of the player (UUID).",
+          default: :undefined,
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "full_name",
+          type: %Primitive{name: "string", custom_props: []},
+          doc: "The full name of the player.",
+          default: :undefined,
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "nickname",
+          type: %ElixirAvro.AvroType.Union{
+            values: %{
+              0 => %Primitive{name: "null", custom_props: []},
+              1 => %Primitive{name: "string", custom_props: []}
+            }
+          },
+          doc: "The nickname of the player (optional).",
+          default: nil,
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "active",
+          type: %Primitive{name: "boolean", custom_props: []},
+          doc: "",
+          default: true,
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "titles",
+          type: %Primitive{name: "int", custom_props: []},
+          doc: "",
+          default: 0,
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "prize_money",
+          type: %Primitive{name: "long", custom_props: []},
+          doc: "",
+          default: 0,
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "height",
+          type: %Primitive{name: "double", custom_props: []},
+          doc: "",
+          default: 1.85,
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "country",
+          type: %Primitive{name: "string", custom_props: []},
+          doc: "",
+          default: "unknown",
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "hand",
+          type: "atp.players.Hand",
+          doc: "",
+          default: "RIGHT",
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "coaches",
+          type: %ElixirAvro.AvroType.Array{
+            type: %Primitive{name: "string", custom_props: []},
+            custom_props: []
+          },
+          doc: "",
+          default: [],
+          order: :ascending,
+          aliases: []
+        },
+        %RecordField{
+          name: "ranking_points",
+          type: %ElixirAvro.AvroType.Map{
+            type: %Primitive{name: "int", custom_props: []},
+            custom_props: []
+          },
+          doc: "",
+          default: %{},
+          order: :ascending,
+          aliases: []
+        }
+      ],
+      aliases: [],
+      custom_props: []
+    }
+  end
+
+  def player_with_defaults_module_content do
+    __DIR__ |> Path.join("#{@expectations_folder}/player_with_defaults") |> File.read!()
+  end
+
+  def hand_erl do
+    {:avro_enum_type, "Hand", "", [], "", ["LEFT", "RIGHT"], "atp.players.Hand", []}
+  end
 end
